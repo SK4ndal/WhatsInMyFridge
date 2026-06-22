@@ -35,7 +35,7 @@ If another repo document conflicts with this file, follow this file.
 - Product backlog and planning domain:
 - Source of truth: `work/backlog/`, `work/ideas/`, `work/adr/`.
 - Matching file patterns: `work/**/*.md`.
-- Relevant keywords: inventory, foodstuff, expiry, waste, meals, shopping list, planning, backlog, idea, ADR.
+- Relevant keywords: inventory, foodstuff, food default, expiry, waste, meals, shopping list, planning, backlog, idea, ADR.
 - Backend application domain:
 - Planned stack: Python, FastAPI, SQLAlchemy, PostgreSQL.
 - Matching file patterns: `backend/**/*.py`, `backend/pyproject.toml`, `backend/alembic.ini`, `backend/alembic/**/*.py`.
@@ -46,7 +46,7 @@ If another repo document conflicts with this file, follow this file.
 - Relevant keywords: React, TypeScript, component, hook, page, form, state, props, inventory view, sorting, grouping.
 - Cross-domain product model domain:
 - Applies when work touches concepts shared across backlog, backend, and frontend.
-- Relevant keywords: inventory item, foodstuff, category, quantity, purchase date, estimated expiry, waste event, meal plan, shopping suggestion.
+- Relevant keywords: inventory item, foodstuff, food default, category, quantity, purchase date, estimated expiry, waste event, meal plan, shopping suggestion.
 - Containerization domain:
 - Matching file patterns: `Dockerfile`, `**/Dockerfile`, `**/.dockerignore`, `docker-compose.yml`, `docker-compose.*.yml`.
 - Relevant keywords: Docker, Compose, container, image, service, healthcheck, volume, port, environment variable, build arg, nginx.
@@ -61,10 +61,10 @@ If another repo document conflicts with this file, follow this file.
 - Keep endpoint behavior aligned with product stories in `work/backlog/`.
 - SQLAlchemy:
 - Use for persistence models and database access.
-- Keep reusable foodstuff configuration distinct from actual inventory items.
+- Treat foodstuff records as reusable food default settings, not actual inventory items; keep them distinct from owned inventory items.
 - PostgreSQL:
 - Use as the primary application database.
-- Treat schema decisions around inventory, foodstuff defaults, and later waste events as cross-story decisions.
+- Treat schema decisions around inventory, reusable food defaults, and later waste events as cross-story decisions.
 - React with TypeScript:
 - Use for frontend UI and stateful user flows.
 - Keep UI behavior aligned with backlog requirements such as inventory CRUD, expiry sorting, and category grouping.
@@ -89,7 +89,7 @@ If another repo document conflicts with this file, follow this file.
 - Trigger keywords: React, TypeScript, component, form, sorting, grouping, dark mode, UX.
 - Focus: user flow clarity, state boundaries, acceptance-criteria alignment, clean UI scope.
 - Cross-domain data model review:
-- Trigger keywords: inventory item, foodstuff, expiry, quantity, category, waste, meal planning, shopping list.
+- Trigger keywords: inventory item, foodstuff, food default, expiry, quantity, category, waste, meal planning, shopping list.
 - Focus: shared concept definitions and dependency impact across stories.
 - Containerization review:
 - Trigger keywords: Dockerfile, docker-compose, container, service, volume, healthcheck, build arg, environment variable.
@@ -118,7 +118,7 @@ If another repo document conflicts with this file, follow this file.
 - Choose guidance based on affected domain files.
 - For backend changes, load the backend technology rules in this file and inspect relevant backlog stories.
 - For frontend changes, load the frontend technology rules in this file and inspect relevant backlog stories.
-- For changes that affect shared concepts such as inventory item or foodstuff, inspect both product artifacts and all touched technology domains.
+- For changes that affect shared concepts such as inventory item or foodstuff/food defaults, inspect both product artifacts and all touched technology domains.
 - If dedicated guideline files are added later, update this file to reference them explicitly.
 
 ### Validation

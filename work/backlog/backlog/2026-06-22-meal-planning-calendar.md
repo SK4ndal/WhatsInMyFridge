@@ -14,7 +14,7 @@ Meal planning connects recipes, inventory, and shopping-list suggestions. Planne
 - Users can mark planned meals as eaten.
 - Inventory items used in planned meals display a planned indicator.
 - Planned indicators link back to the related meal or recipe.
-- Users can select a date and see which foodstuffs are planned or unavailable for that date.
+- Users can select a date and see which inventory items are planned or reserved for that date, plus any food defaults or recipe ingredients that still need to be bought.
 - Inventory items can be visually greyed out when reserved for planned meals.
 - Missing ingredients from planned meals can feed shopping-list suggestions.
 
@@ -32,5 +32,5 @@ Meal planning connects recipes, inventory, and shopping-list suggestions. Planne
 - A user can mark a planned meal as eaten.
 - Inventory items tied to planned meals show a planned indicator.
 - Planned indicators link to the relevant meal or recipe.
-- Date selection can show planned or reserved foodstuffs.
+- Date selection can show planned or reserved inventory items and missing ingredients derived from recipes or food defaults.
 - Planned-meal missing ingredients can be suggested for the shopping list.

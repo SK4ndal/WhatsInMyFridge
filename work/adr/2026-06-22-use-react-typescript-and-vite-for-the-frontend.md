@@ -5,7 +5,7 @@ Status: Accepted
 
 ## Context
 
-The core inventory foundation story introduced the first frontend implementation for inventory creation, editing, removal, expiry sorting, category grouping, foodstuff suggestions, and quick foodstuff creation. The UI needs to remain suitable for continued iteration across upcoming dashboard, receipt import, expiry awareness, shopping-list, recipe, and meal-planning stories.
+The core inventory foundation story introduced the first frontend implementation for inventory creation, editing, removal, expiry sorting, category grouping, foodstuff suggestions, and quick foodstuff creation. In product terms, foodstuff suggestions represent reusable food default settings that can prefill inventory-item fields without adding anything to inventory by themselves. The UI needs to remain suitable for continued iteration across upcoming dashboard, receipt import, expiry awareness, shopping-list, recipe, and meal-planning stories.
 
 `work/project-config.md` defines the frontend stack as React with TypeScript. The implemented containerization story builds the frontend with Vite and serves the production bundle from the frontend Docker image. Compose validation confirms the browser can load the frontend and call the backend API through a host-accessible URL.
 
@@ -19,6 +19,6 @@ Frontend API access should use typed DTOs and a small API boundary rather than s
 
 - Frontend changes should follow `work/guidelines/frontend.md` for component boundaries, API access, DTO types, and reference-app adaptation.
 - The frontend build path is the Vite production build executed by `docker compose build frontend`.
-- Shared product concepts such as inventory items, foodstuffs, expiry dates, categories, and quantities should stay aligned with backend contracts and backlog stories.
+- Shared product concepts such as owned inventory items, foodstuff-backed default settings, expiry dates, categories, and quantities should stay aligned with backend contracts and backlog stories.
 - Compose builds must provide a browser-accessible `VITE_API_BASE_URL`, currently `http://localhost:18000`.
 - Validation should use the Docker-based frontend command defined in `work/project-config.md` so agents do not depend on host npm tooling.
