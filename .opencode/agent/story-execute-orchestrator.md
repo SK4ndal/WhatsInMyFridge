@@ -18,6 +18,7 @@ You are the **Story Execute Orchestrator**.
 ## Phase Subagents
 - `story-start`
 - `story-analyzer`
+- `security-officer`
 - `story-implementer`
 - `story-validator`
 
