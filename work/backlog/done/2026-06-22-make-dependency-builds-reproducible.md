@@ -88,3 +88,14 @@ Security review found that dependency builds are not currently reproducible. The
 **Additional Checks**:
 
 - Security-officer story-scope review: no blocker found; confirmed story reduces supply-chain reproducibility risk. Main caution is to avoid unreviewed broad uv/container workflow expansion beyond the dependency-locking scope.
+
+## Validation update (2026-06-22 14:52)
+
+* Validation passed with no regressions found.
+* Gate result: PASS.
+* Baseline checks passed: frontend containerized `npm ci && npm run build`, backend locked uv pytest command, `docker compose config`, and `docker compose build`.
+* Touched-scope coverage: no material regression; backend touched-scope tests passed and no frontend coverage command is defined.
+* Security review: completed for dependency reproducibility and container install paths; no secrets or dependency-install bypasses found.
+* Retained exploratory artifacts: none; no browser/UI validation required.
+* Validated checklist items: frontend dependency declarations avoid `latest`; `frontend/package-lock.json` is tracked and in sync with `npm ci`; `frontend/Dockerfile` uses `npm ci`; backend `pyproject.toml` constraints have upper bounds; tracked `backend/uv.lock` exists; README documents lockfile source-of-truth workflows; frontend build, backend tests, Compose config, and Compose build pass.
+* Providers covered: local Docker/container validation only; no app provider variants apply.
