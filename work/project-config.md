@@ -132,13 +132,18 @@ If another repo document conflicts with this file, follow this file.
 
 - Backend validation commands:
 - `docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim sh -c 'python -m pip install -e ".[dev]" && python -m pytest tests'` from the repo root. Always run for backend changes.
+- `docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim sh -c 'python -m pip install -e ".[dev]" && ruff check . && ruff format --check .'` from the repo root. Always run for backend lint/static-check changes and backend Python changes.
 - Frontend validation commands:
+- `npm --prefix frontend run lint` from the repo root. Always run for frontend TypeScript/React changes and frontend lint/static-check changes after frontend dependencies are installed.
 - `docker compose build frontend` from the repo root. Always run for frontend changes.
+- Repo hygiene validation commands:
+- `pre-commit run --all-files` from the repo root. Always run for pre-commit configuration changes after backend, frontend, and pre-commit dependencies are installed.
 - Docker/Compose validation commands:
 - `docker compose config` from the repo root. Always run for Compose changes.
 - `docker compose build` from the repo root. Always run for Dockerfile or Compose build changes when Docker is available.
 - Database migration commands are not yet defined in the repo.
-- Backend linting or static-check commands are not yet defined in the repo.
+- Backend linting/static-check commands are defined above.
+- Frontend linting/static-check commands are defined above.
 - Frontend unit-test commands are not yet defined in the repo.
 - If a required command cannot run because Docker is unavailable, report the environment blocker explicitly.
 

@@ -41,10 +41,10 @@ class InventoryItemBase(BaseModel):
 class InventoryItemCreate(InventoryItemBase):
     @model_validator(mode="after")
     def require_manual_details_without_foodstuff(self) -> "InventoryItemCreate":
-        if self.foodstuff_id is None and (self.name is None or self.category is None or self.estimated_expiry_date is None):
-            raise ValueError(
-                "name, category, and estimated_expiry_date are required when no foodstuff_id is provided"
-            )
+        if self.foodstuff_id is None and (
+            self.name is None or self.category is None or self.estimated_expiry_date is None
+        ):
+            raise ValueError("name, category, and estimated_expiry_date are required when no foodstuff_id is provided")
         return self
 
 
