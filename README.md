@@ -13,9 +13,12 @@ First implementation of the core inventory foundation.
 cd backend
 python -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"
+python -m pip install uv
+uv sync --locked --extra dev
 uvicorn app.main:app --reload
 ```
+
+Backend dependency constraints are maintained in `backend/pyproject.toml` and locked in `backend/uv.lock`; use `uv sync --locked --extra dev` so local installs use the committed lockfile. The backend Docker image also installs with `uv sync --locked --no-dev`.
 
 The default backend database URL is:
 
@@ -29,9 +32,11 @@ Override it with `WIMF_DATABASE_URL`.
 
 ```bash
 cd frontend
-npm install
+npm ci
 npm run dev
 ```
+
+Frontend dependencies are declared in `frontend/package.json` and locked in `frontend/package-lock.json`; use `npm ci` for reproducible installs and container-equivalent dependency resolution.
 
 The frontend expects the API at `http://localhost:8000` by default. Override it with `VITE_API_BASE_URL`.
 
