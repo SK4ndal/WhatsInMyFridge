@@ -11,7 +11,9 @@ from app.models import Foodstuff, InventoryItem  # noqa: F401 - ensure metadata 
 
 @pytest.fixture()
 def client() -> TestClient:
-    engine = create_engine("sqlite+pysqlite:///:memory:", connect_args={"check_same_thread": False}, poolclass=StaticPool)
+    engine = create_engine(
+        "sqlite+pysqlite:///:memory:", connect_args={"check_same_thread": False}, poolclass=StaticPool
+    )
     TestingSessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
     Base.metadata.create_all(bind=engine)
 
