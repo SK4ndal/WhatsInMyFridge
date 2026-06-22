@@ -98,3 +98,14 @@ This story adds Docker support for the backend, frontend, and database, plus a D
 - Confirm the browser-facing API URL is host-accessible, not the internal Compose service name, unless a frontend reverse proxy is added.
 - Confirm Docker build contexts exclude `.venv`, `node_modules`, build artifacts, and secrets.
 - Confirm any new Docker commands added to `work/project-config.md` match the actual Compose workflow.
+
+## Validation update (2026-06-22 13:32)
+
+* Validation passed with no regressions found.
+* Gate result: PASS.
+* Baseline checks passed or had no unrelated failures observed: `docker compose config`, `docker compose build`, backend tests via `./backend/.venv/bin/python -m pytest backend/tests`; host `python` and `npm` commands were unavailable, so host `npm run build` could not be run directly, but the frontend Docker build executed `npm run build` successfully.
+* Touched-scope coverage: no material regression.
+* Security review: completed for Docker/Compose environment wiring, exposed ports, build contexts, CORS origin configuration, and secret avoidance; no story-introduced issue found.
+* Retained exploratory artifacts: `artifacts/e2e/exploratory/docker-compose/2026-06-22T000000Z/01-compose-ui/`.
+* Validated checklist items: backend image builds; frontend image builds; Compose defines and starts PostgreSQL, backend, and frontend; backend receives `WIMF_DATABASE_URL` from Compose and reaches PostgreSQL through Compose networking; frontend UI is exposed on `localhost:8080` and calls backend on host-accessible `localhost:18000`; backend health responds on the documented port; PostgreSQL data persists across a Compose restart through the named `postgres_data` volume; README and project-config document Docker commands and ports; Docker build contexts exclude virtual environments, `node_modules`, build output, local env files, and secrets.
+* Providers covered: Docker Compose local stack.
