@@ -1,15 +1,19 @@
 FROM python:3.13-slim
 
+COPY --from=ghcr.io/astral-sh/uv:0.9.30 /uv /uvx /bin/
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
-COPY pyproject.toml ./
+COPY pyproject.toml uv.lock ./
 COPY app ./app
 
-RUN python -m pip install --upgrade pip \
-    && python -m pip install --no-cache-dir .
+RUN uv sync --locked --no-dev
 
 EXPOSE 8000
 

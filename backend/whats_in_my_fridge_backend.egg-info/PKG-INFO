@@ -3,11 +3,11 @@ Name: whats-in-my-fridge-backend
 Version: 0.1.0
 Summary: FastAPI backend for WhatsInMyFridge
 Requires-Python: >=3.11
-Requires-Dist: fastapi>=0.115.0
-Requires-Dist: uvicorn[standard]>=0.30.0
-Requires-Dist: sqlalchemy>=2.0.0
-Requires-Dist: psycopg[binary]>=3.2.0
-Requires-Dist: pydantic-settings>=2.4.0
+Requires-Dist: fastapi<1.0.0,>=0.115.0
+Requires-Dist: uvicorn[standard]<1.0.0,>=0.30.0
+Requires-Dist: sqlalchemy<3.0.0,>=2.0.0
+Requires-Dist: psycopg[binary]<4.0.0,>=3.2.0
+Requires-Dist: pydantic-settings<3.0.0,>=2.4.0
 Provides-Extra: dev
-Requires-Dist: httpx>=0.27.0; extra == "dev"
-Requires-Dist: pytest>=8.0.0; extra == "dev"
+Requires-Dist: httpx<1.0.0,>=0.27.0; extra == "dev"
+Requires-Dist: pytest<9.0.0,>=8.0.0; extra == "dev"

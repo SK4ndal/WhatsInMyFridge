@@ -131,8 +131,8 @@ If another repo document conflicts with this file, follow this file.
 ## Command Rules
 
 - Backend validation commands:
-- `docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim sh -c 'python -m pip install -e ".[dev]" && python -m pytest tests'` from the repo root. Always run for backend changes.
-- `docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim sh -c 'python -m pip install -e ".[dev]" && ruff check . && ruff format --check .'` from the repo root. Always run for backend lint/static-check changes and backend Python changes.
+- `docker run --rm -v "$PWD/backend:/app" -w /app ghcr.io/astral-sh/uv:python3.13-bookworm sh -c 'uv sync --locked --extra dev && uv run python -m pytest tests'` from the repo root. Always run for backend changes.
+- `docker run --rm -v "$PWD/backend:/app" -w /app ghcr.io/astral-sh/uv:python3.13-bookworm sh -c 'uv sync --locked --extra dev && uv run ruff check . && uv run ruff format --check .'` from the repo root. Always run for backend lint/static-check changes and backend Python changes.
 - Frontend validation commands:
 - `npm --prefix frontend run lint` from the repo root. Always run for frontend TypeScript/React changes and frontend lint/static-check changes after frontend dependencies are installed.
 - `docker compose build frontend` from the repo root. Always run for frontend changes.
