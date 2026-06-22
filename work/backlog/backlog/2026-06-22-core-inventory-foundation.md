@@ -107,3 +107,9 @@ Inventory items represent actual food currently owned by the user. Foodstuffs re
 
 - Confirm the chosen quantity representation is sufficient for later low-stock and shopping-list behavior before broadening implementation into those features.
 - Confirm the database schema preserves the boundary between reusable foodstuff configuration and actual owned inventory items.
+
+## Implementation feedback (2026-06-22 13:12)
+
+* Gate result: FAIL.
+* Quick-created foodstuff defaults are not reliably applied to the in-progress inventory form. In `frontend/src/App.tsx`, `submitFoodstuff` awaits `refresh()` and then calls `applySelectedFoodstuff(String(foodstuff.id))`, but `applySelectedFoodstuff` reads from the stale `foodstuffs` state captured before the refresh. The new foodstuff id is selected, but name, category, and estimated expiry can remain empty until the user manually changes the selection again. This leaves the acceptance criteria for quick-create/add-flow defaults insufficiently implemented for newly created suggestions.
+* Required validation commands could not be completed in this environment: `python -m pytest backend/tests` failed with `python: command not found`, and `npm run build` from `frontend/` failed with `npm: command not found`. Re-run both commands after installing the required local tooling/dependencies.

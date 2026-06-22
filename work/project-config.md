@@ -68,13 +68,14 @@ If another repo document conflicts with this file, follow this file.
 - React with TypeScript:
 - Use for frontend UI and stateful user flows.
 - Keep UI behavior aligned with backlog requirements such as inventory CRUD, expiry sorting, and category grouping.
+- Follow `work/guidelines/frontend.md` for frontend component boundaries, API access, DTO types, and reference-app adaptation.
 - Docker and Docker Compose:
 - Use for local full-stack runtime orchestration.
 - Keep Compose service names, ports, environment variables, and build args documented in `README.md`.
 - Keep browser-facing frontend API URLs host-accessible unless a frontend reverse proxy is explicitly added.
 - Keep Docker build contexts free of local virtual environments, `node_modules`, build output, git data, and secrets.
-- No technology-specific guideline files are defined yet.
-- Until dedicated guideline files exist, this file is the governing technology guidance.
+- Frontend guideline file: `work/guidelines/frontend.md`.
+- Until other dedicated guideline files exist, this file remains the governing technology guidance for non-frontend domains.
 
 ## Review Rules
 
@@ -93,7 +94,8 @@ If another repo document conflicts with this file, follow this file.
 - Containerization review:
 - Trigger keywords: Dockerfile, docker-compose, container, service, volume, healthcheck, build arg, environment variable.
 - Focus: runtime wiring, service health, exposed ports, persistent data, secret avoidance, and README/project-config alignment.
-- No separate review guideline files are defined yet.
+- Frontend reviews should also consult `work/guidelines/frontend.md`.
+- No other separate review guideline files are defined yet.
 
 ## Loading Rules
 
