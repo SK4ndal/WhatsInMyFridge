@@ -1,1 +1,1 @@
-../.opencode/custom/init/README.md
+/Users/btjiong/Documents/git/WhatsInMyFridge/.opencode/custom/init/README.md
