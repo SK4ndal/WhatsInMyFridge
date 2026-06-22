@@ -58,8 +58,8 @@ export default function App() {
     setFoodstuffs(foodstuffSuggestions);
   }
 
-  function applySelectedFoodstuff(foodstuffId: string) {
-    const foodstuff = foodstuffs.find((candidate) => String(candidate.id) === foodstuffId);
+  function applySelectedFoodstuff(foodstuffId: string, availableFoodstuffs = foodstuffs) {
+    const foodstuff = availableFoodstuffs.find((candidate) => String(candidate.id) === foodstuffId);
     setInventoryForm((current) => ({
       ...current,
       foodstuffId,
@@ -88,8 +88,9 @@ export default function App() {
     const foodstuff = await createFoodstuff(foodstuffForm);
     setMessage("Foodstuff created and available as a suggestion.");
     setFoodstuffForm(emptyFoodstuffForm);
+    setFoodstuffs((current) => [...current, foodstuff]);
+    applySelectedFoodstuff(String(foodstuff.id), [...foodstuffs, foodstuff]);
     await refresh();
-    applySelectedFoodstuff(String(foodstuff.id));
   }
 
   function editItem(item: InventoryItem) {

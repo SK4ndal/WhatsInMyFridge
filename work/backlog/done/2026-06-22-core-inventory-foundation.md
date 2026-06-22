@@ -113,3 +113,34 @@ Inventory items represent actual food currently owned by the user. Foodstuffs re
 * Gate result: FAIL.
 * Quick-created foodstuff defaults are not reliably applied to the in-progress inventory form. In `frontend/src/App.tsx`, `submitFoodstuff` awaits `refresh()` and then calls `applySelectedFoodstuff(String(foodstuff.id))`, but `applySelectedFoodstuff` reads from the stale `foodstuffs` state captured before the refresh. The new foodstuff id is selected, but name, category, and estimated expiry can remain empty until the user manually changes the selection again. This leaves the acceptance criteria for quick-create/add-flow defaults insufficiently implemented for newly created suggestions.
 * Required validation commands could not be completed in this environment: `python -m pytest backend/tests` failed with `python: command not found`, and `npm run build` from `frontend/` failed with `npm: command not found`. Re-run both commands after installing the required local tooling/dependencies.
+
+## Implementation update (2026-06-22 13:31)
+
+- Addressed: quick-created foodstuff defaults now apply immediately using the created suggestion instead of stale state.
+- Not addressed: backend/frontend validation remains blocked by missing local Python and frontend dependencies/tooling.
+- Status: partial
+
+## Implementation update (2026-06-22 14:02)
+
+- Addressed: retried previously blocked backend and frontend validation through Docker Compose/container builds; both passed.
+- Not addressed: none.
+- Status: done
+
+## Security decision (2026-06-22 14:10)
+
+- Decision: The core inventory foundation remains unauthenticated for now and is treated as local/development-only until an explicit auth/user-boundary story is implemented.
+- Rationale: The current story establishes the inventory and foodstuff foundation; authentication and user scoping are intentionally deferred rather than added mid-story.
+- Follow-up story: `work/backlog/backlog/2026-06-22-add-authentication-and-user-boundaries.md`.
+- Validation note: Unauthenticated CRUD endpoints are not a blocker for this story under the local/development-only decision.
+- Container note: Current Docker Compose port bindings are accepted for local-only development in this story; deployment/shared-network hardening remains out of scope.
+
+## Validation update (2026-06-22 14:05)
+
+* Validation passed with no regressions found.
+* Gate result: PASS.
+* Baseline checks passed or had no unrelated failures observed. Host `python -m pytest backend/tests` and `npm run build` were blocked by missing host tooling/dependencies, so equivalent container validation was used: backend pytest passed in `python:3.13-slim`, `docker compose config` passed, `docker compose build` passed, and `docker compose build --no-cache frontend` passed.
+* Touched-scope coverage: no material regression; backend tests cover inventory CRUD, expiry ordering, category grouping, foodstuff expiry-range validation, defaults/overrides, and removal semantics, with UI exploratory proof for the visible add/edit/remove/sort/group/default flows.
+* Security review: completed; unauthenticated CRUD endpoints and current Compose port bindings are accepted for this local/development-only story per the documented security decision, with auth/user boundaries deferred to the follow-up story.
+* Retained exploratory artifacts: `artifacts/e2e/exploratory/local/2026-06-22-validate-core-inventory/01-inventory-foundation/`.
+* Validated checklist items: create inventory item with required fields; update inventory item; remove active inventory without eaten/wasted semantics; order inventory by estimated expiry date; view/group inventory by category; retrieve/select foodstuff suggestions; quick-create foodstuff from add flow; foodstuff defaults include category and min/max expiry days; min/max expiry range validation; item-specific values remain editable after applying defaults; clean dark-mode-suitable UI with estimated-expiry copy.
+* Providers covered: local Docker Compose provider.
