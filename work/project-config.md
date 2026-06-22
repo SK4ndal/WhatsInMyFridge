@@ -131,16 +131,16 @@ If another repo document conflicts with this file, follow this file.
 ## Command Rules
 
 - Backend validation commands:
-- `python -m pytest backend/tests` from the repo root with backend dependencies installed. Always run for backend changes.
+- `docker run --rm -v "$PWD/backend:/app" -w /app python:3.13-slim sh -c 'python -m pip install -e ".[dev]" && python -m pytest tests'` from the repo root. Always run for backend changes.
 - Frontend validation commands:
-- `npm run build` from `frontend/` with frontend dependencies installed. Always run for frontend changes.
+- `docker compose build frontend` from the repo root. Always run for frontend changes.
 - Docker/Compose validation commands:
 - `docker compose config` from the repo root. Always run for Compose changes.
 - `docker compose build` from the repo root. Always run for Dockerfile or Compose build changes when Docker is available.
 - Database migration commands are not yet defined in the repo.
 - Backend linting or static-check commands are not yet defined in the repo.
 - Frontend unit-test commands are not yet defined in the repo.
-- If a required command cannot run because local tooling is unavailable, report the environment blocker explicitly.
+- If a required command cannot run because Docker is unavailable, report the environment blocker explicitly.
 
 ## Agent Usage Rule
 
