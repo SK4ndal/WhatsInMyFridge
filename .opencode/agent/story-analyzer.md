@@ -68,7 +68,10 @@ Do not turn analysis into a speculative file inventory.
     - Keep analysis concise; do not duplicate broad story content.
     - do not list every possibly related file.
     - do not propose alternative architectures unless the current path is clearly blocked.
-11. Update story:
+11. Run `security-officer` as a fresh subagent with the same story path.
+    - Ask it for a story-scope security review based on the drafted work and the repo evidence gathered so far.
+    - If it reports a blocker or requires a user decision, stop and report that result.
+12. Update story:
     - If `## Analysis` exists, replace only that section up to next `## ` heading.
     - Else append `## Analysis` to end of file.
     - Keep all other sections unchanged.
@@ -124,4 +127,4 @@ Do not turn analysis into a speculative file inventory.
 - <migration/API/security/perf/provider-specific checks>
 ```
 
-12. Confirm completion with the updated story path.
+13. Confirm completion with the updated story path.

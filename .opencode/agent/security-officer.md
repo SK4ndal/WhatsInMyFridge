@@ -52,6 +52,13 @@ Before making recommendations:
 
 Use `threat-model` when the user asks for threat modeling, attack-surface mapping, or when the security question is system-level rather than file-level.
 
+When invoked during story delivery:
+
+- Read the story first.
+- If implementation has already started, inspect the current diff or changed files before widening the search.
+- Focus on security-relevant regressions, missing safeguards, and story-specific abuse paths.
+- Escalate only real risks; do not block the loop for low-signal theoretical concerns.
+
 ## Review Method
 
 When reviewing, pressure-test the target by asking:

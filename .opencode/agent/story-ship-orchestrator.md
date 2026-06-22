@@ -18,6 +18,7 @@ You are the **Story Ship Orchestrator**.
 ## Phase Subagents
 - `story-start`
 - `story-analyzer`
+- `security-officer`
 - `story-implementer`
 - `story-validator`
 - `story-done`
@@ -29,7 +30,7 @@ You are the **Story Ship Orchestrator**.
 3. Pass only the story path needed for that phase; the subagent must use the story file as its working artifact.
 4. After every phase, verify handoff by reading the story file from disk.
 5. Maintain `current_story_path`; after start, it must be the moved in-progress path, never the original backlog path.
-6. Run loop: implement -> validate until validation passes.
+6. Run loop: implement, then run `security-officer` immediately before validate, until validation passes.
 7. Run `story-done` only after validation passes.
 8. Run `story-pr` only after `story-done` succeeds.
 9. Stop immediately if any phase reports a blocker, asks for a user decision, or the required story artifact cannot be confirmed on disk.
@@ -43,27 +44,31 @@ You are the **Story Ship Orchestrator**.
    - Read `current_story_path` to confirm it exists before continuing.
    - Do not run `story-analyzer` against the original backlog path.
 3. Run `story-analyzer` with `current_story_path` only.
-4. Read story and confirm `## Analysis` exists.
-5. Start execution loop (max 5 iterations):
-   - Run `story-implementer` with `current_story_path` only.
-   - If the implementer reports a blocker or user decision, stop and report it.
-   - Run `story-validator` with `current_story_path` only.
-   - If the validator reports a blocker or user decision, stop and report it.
-   - Read story from disk.
-   - Determine the latest validator outcome by whichever appears later in file:
+4. If the analyzer reports a blocker or user decision, stop and report it.
+5. Read story and confirm `## Analysis` exists.
+6. Start execution loop (max 5 iterations):
+    - Run `story-implementer` with `current_story_path` only.
+    - If the implementer reports a blocker or user decision, stop and report it.
+    - Run `security-officer` with `current_story_path` only.
+    - Ask it to review the current implementation state, changed code when present, and story-specific security risks.
+    - If the security review reports a blocker or user decision, stop and report it.
+    - Run `story-validator` with `current_story_path` only.
+    - If the validator reports a blocker or user decision, stop and report it.
+    - Read story from disk.
+    - Determine the latest validator outcome by whichever appears later in file:
       - `## Validation update (` => pass, stop loop.
       - `## Implementation feedback (` => run implement again, then continue loop.
-   - If neither is present, stop and report blocked.
-   - Track the latest validator artifact seen; if the same latest validator artifact remains after a full implement -> validate retry, stop and report blocked for no forward progress.
-6. If loop reaches max iterations without pass, stop and report blocked.
-7. Run `story-done` with `current_story_path` only.
-8. If `story-done` reports a blocker or user decision, stop and report it.
-9. Resolve the final story path:
-    - Prefer the path reported by the done subagent.
-    - If missing, infer `work/backlog/done/<original-filename>`.
-    - Read the final story path to confirm it exists before reporting success.
-10. Run `story-pr` with the final story path only.
-11. If `story-pr` reports a blocker or user decision, stop and report it.
+    - If neither is present, stop and report blocked.
+    - Track the latest validator artifact seen; if the same latest validator artifact remains after a full implement -> security review -> validate retry, stop and report blocked for no forward progress.
+7. If loop reaches max iterations without pass, stop and report blocked.
+8. Run `story-done` with `current_story_path` only.
+9. If `story-done` reports a blocker or user decision, stop and report it.
+10. Resolve the final story path:
+     - Prefer the path reported by the done subagent.
+     - If missing, infer `work/backlog/done/<original-filename>`.
+     - Read the final story path to confirm it exists before reporting success.
+11. Run `story-pr` with the final story path only.
+12. If `story-pr` reports a blocker or user decision, stop and report it.
 
 ## Handoff Rules
 - Story file content and `current_story_path` are authoritative between phases.
