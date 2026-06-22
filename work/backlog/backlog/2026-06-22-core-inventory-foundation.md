@@ -51,3 +51,59 @@ Inventory items represent actual food currently owned by the user. Foodstuffs re
 - A foodstuff expiry range stores both minimum and maximum day values.
 - Inventory items created from a foodstuff suggestion can still have item-specific values adjusted.
 - Removing an inventory item does not count as marking it eaten or wasted.
+
+## Analysis
+
+### Likely Impact
+
+- Primary implementation lane: new runtime scaffold -> FastAPI inventory/foodstuff API -> SQLAlchemy/PostgreSQL persistence models -> React TypeScript inventory UI.
+- `work/project-config.md` - confirms the planned backend stack is Python, FastAPI, SQLAlchemy, and PostgreSQL, and the frontend stack is React with TypeScript.
+- `work/project-config.md` - confirms application runtime code layout is not yet present, so implementation will likely need to create the first backend and frontend project structure before feature code can land.
+- Backend data model/API - likely first layer to define `Foodstuff` reusable configuration separately from `InventoryItem`, preserving the story decision that foodstuffs are not owned inventory.
+- Frontend inventory flow - likely needed to satisfy add/edit/remove, expiry sorting, category grouping, suggestion selection, and quick foodstuff creation from the add flow.
+
+### Possible Adjacent Touchpoints
+
+- Database migration setup - likely needed if the backend scaffold includes persistent PostgreSQL schema management; repo command rules do not yet define migration commands.
+- API contract types/schemas - likely needed for inventory item create/update/list/delete and foodstuff suggestion/quick-create flows.
+- Frontend API client/state layer - may be needed so the React UI can call the FastAPI endpoints consistently.
+- `work/backlog/backlog/2026-06-22-expiry-and-waste-awareness.md` - adjacent dependency because later eaten/wasted outcomes must remain separate from simple inventory removal.
+- `work/backlog/backlog/2026-06-22-shopping-list-intelligence.md` - adjacent dependency because low-stock suggestions depend on the quantity model chosen here.
+
+### Existing Patterns / Prior Art
+
+- `work/project-config.md` - closest implementation guidance; it defines logical backend, frontend, and cross-domain model domains plus stack expectations.
+- `brainstom.md` - product prior art for inventory ordering, foodstuff suggestions, quick foodstuff creation, and per-foodstuff expiry configuration.
+- No close runtime code prior art was found; there are no existing Python, TypeScript, FastAPI, SQLAlchemy, or React files in the repo yet.
+
+### Layer Boundaries
+
+- Touch first: runtime scaffolding, backend persistence models, backend API endpoints/schemas, frontend inventory UI, and frontend add/edit form flows.
+- Touch first: shared model definitions around `InventoryItem`, `Foodstuff`, `category`, `quantity`, `purchaseDate`, and `estimatedExpiryDate` because later stories depend on these concepts.
+- Avoid unless evidence emerges: meal recommendations, meal planning calendar, shopping-list intelligence, waste metrics, eaten/wasted event tracking, photo-based expiry extraction, and a full standalone foodstuff configuration page beyond quick creation/default reuse.
+- Avoid unless evidence emerges: marking items eaten or wasted during removal; the story explicitly keeps removal separate from those later outcomes.
+
+### Verification Plan
+
+**Unit Tests**:
+
+- Verify foodstuff expiry ranges require both minimum and maximum day values and reject invalid ranges such as maximum below minimum.
+- Verify inventory item create/update behavior keeps item-specific values editable even when created from a foodstuff suggestion.
+- Verify removal removes the item from active inventory without creating eaten or wasted semantics.
+
+**Integration Tests**:
+
+- Verify inventory CRUD through the API, including create, update, list, and remove behavior.
+- Verify list ordering by estimated expiry date and category grouping/filtering behavior.
+- Verify add-item flow can retrieve foodstuff suggestions and quick-create a new foodstuff for future selection.
+
+**E2E / Manual Validation**:
+
+- Add an inventory item from an existing foodstuff suggestion and confirm defaults are applied but editable.
+- Add an inventory item by quick-creating a new foodstuff when no suitable suggestion exists.
+- Confirm inventory can be viewed sorted by expiry date and grouped or viewed by category in a clean, dark-mode-suitable UI.
+
+**Additional Checks (as applicable)**:
+
+- Confirm the chosen quantity representation is sufficient for later low-stock and shopping-list behavior before broadening implementation into those features.
+- Confirm the database schema preserves the boundary between reusable foodstuff configuration and actual owned inventory items.

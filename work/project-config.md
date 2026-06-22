@@ -17,8 +17,9 @@ If another repo document conflicts with this file, follow this file.
 - `.opencode/` contains workflow implementation such as agents, commands, and skills.
 - `AGENTS.md` defines agent behavior for this repository.
 - `README.md` exists but is currently empty.
-- Application runtime code layout is not yet present in the repository.
-- Until runtime folders are created, treat backend and frontend as separate logical domains selected by technology and file patterns rather than fixed directories.
+- Runtime code layout:
+- `backend/` contains the Python FastAPI, SQLAlchemy, and PostgreSQL backend.
+- `frontend/` contains the React TypeScript frontend.
 
 ## Output Rules
 
@@ -36,11 +37,11 @@ If another repo document conflicts with this file, follow this file.
 - Relevant keywords: inventory, foodstuff, expiry, waste, meals, shopping list, planning, backlog, idea, ADR.
 - Backend application domain:
 - Planned stack: Python, FastAPI, SQLAlchemy, PostgreSQL.
-- Matching file patterns when present: `**/*.py`, `**/requirements*.txt`, `**/pyproject.toml`, `**/alembic.ini`, `**/alembic/**/*.py`.
+- Matching file patterns: `backend/**/*.py`, `backend/pyproject.toml`, `backend/alembic.ini`, `backend/alembic/**/*.py`.
 - Relevant keywords: FastAPI, router, endpoint, SQLAlchemy, session, model, schema, repository, service, PostgreSQL, Postgres, migration, Alembic.
 - Frontend application domain:
 - Planned stack: React with TypeScript.
-- Matching file patterns when present: `**/*.{ts,tsx}`, `**/package.json`, `**/tsconfig.json`.
+- Matching file patterns: `frontend/**/*.{ts,tsx}`, `frontend/package.json`, `frontend/tsconfig.json`, `frontend/vite.config.ts`.
 - Relevant keywords: React, TypeScript, component, hook, page, form, state, props, inventory view, sorting, grouping.
 - Cross-domain product model domain:
 - Applies when work touches concepts shared across backlog, backend, and frontend.
@@ -115,16 +116,14 @@ If another repo document conflicts with this file, follow this file.
 
 ## Command Rules
 
-- Backend validation commands are not yet defined in the repo.
-- Frontend validation commands are not yet defined in the repo.
+- Backend validation commands:
+- `python -m pytest backend/tests` from the repo root with backend dependencies installed. Always run for backend changes.
+- Frontend validation commands:
+- `npm run build` from `frontend/` with frontend dependencies installed. Always run for frontend changes.
 - Database migration commands are not yet defined in the repo.
-- Once the runtime project is scaffolded, add the canonical commands for:
-- backend tests
-- backend linting or static checks
-- frontend tests
-- frontend linting and type-checking
-- database migrations
-- Until then, agents must not invent repo-standard commands.
+- Backend linting or static-check commands are not yet defined in the repo.
+- Frontend unit-test commands are not yet defined in the repo.
+- If a required command cannot run because local tooling is unavailable, report the environment blocker explicitly.
 
 ## Agent Usage Rule
 
