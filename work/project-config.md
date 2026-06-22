@@ -16,10 +16,11 @@ If another repo document conflicts with this file, follow this file.
 - `work/` is the durable source of truth for backlog, ideas, ADRs, and project operating context.
 - `.opencode/` contains workflow implementation such as agents, commands, and skills.
 - `AGENTS.md` defines agent behavior for this repository.
-- `README.md` exists but is currently empty.
+- `README.md` documents local and Docker Compose run commands.
 - Runtime code layout:
 - `backend/` contains the Python FastAPI, SQLAlchemy, and PostgreSQL backend.
 - `frontend/` contains the React TypeScript frontend.
+- `docker-compose.yml` defines the local full-stack runtime with PostgreSQL, backend, and frontend services.
 
 ## Output Rules
 
@@ -46,6 +47,9 @@ If another repo document conflicts with this file, follow this file.
 - Cross-domain product model domain:
 - Applies when work touches concepts shared across backlog, backend, and frontend.
 - Relevant keywords: inventory item, foodstuff, category, quantity, purchase date, estimated expiry, waste event, meal plan, shopping suggestion.
+- Containerization domain:
+- Matching file patterns: `Dockerfile`, `**/Dockerfile`, `**/.dockerignore`, `docker-compose.yml`, `docker-compose.*.yml`.
+- Relevant keywords: Docker, Compose, container, image, service, healthcheck, volume, port, environment variable, build arg, nginx.
 
 ## Technology Rules
 
@@ -64,6 +68,11 @@ If another repo document conflicts with this file, follow this file.
 - React with TypeScript:
 - Use for frontend UI and stateful user flows.
 - Keep UI behavior aligned with backlog requirements such as inventory CRUD, expiry sorting, and category grouping.
+- Docker and Docker Compose:
+- Use for local full-stack runtime orchestration.
+- Keep Compose service names, ports, environment variables, and build args documented in `README.md`.
+- Keep browser-facing frontend API URLs host-accessible unless a frontend reverse proxy is explicitly added.
+- Keep Docker build contexts free of local virtual environments, `node_modules`, build output, git data, and secrets.
 - No technology-specific guideline files are defined yet.
 - Until dedicated guideline files exist, this file is the governing technology guidance.
 
@@ -81,6 +90,9 @@ If another repo document conflicts with this file, follow this file.
 - Cross-domain data model review:
 - Trigger keywords: inventory item, foodstuff, expiry, quantity, category, waste, meal planning, shopping list.
 - Focus: shared concept definitions and dependency impact across stories.
+- Containerization review:
+- Trigger keywords: Dockerfile, docker-compose, container, service, volume, healthcheck, build arg, environment variable.
+- Focus: runtime wiring, service health, exposed ports, persistent data, secret avoidance, and README/project-config alignment.
 - No separate review guideline files are defined yet.
 
 ## Loading Rules
@@ -120,6 +132,9 @@ If another repo document conflicts with this file, follow this file.
 - `python -m pytest backend/tests` from the repo root with backend dependencies installed. Always run for backend changes.
 - Frontend validation commands:
 - `npm run build` from `frontend/` with frontend dependencies installed. Always run for frontend changes.
+- Docker/Compose validation commands:
+- `docker compose config` from the repo root. Always run for Compose changes.
+- `docker compose build` from the repo root. Always run for Dockerfile or Compose build changes when Docker is available.
 - Database migration commands are not yet defined in the repo.
 - Backend linting or static-check commands are not yet defined in the repo.
 - Frontend unit-test commands are not yet defined in the repo.

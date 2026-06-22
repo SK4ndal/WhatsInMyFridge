@@ -35,6 +35,43 @@ npm run dev
 
 The frontend expects the API at `http://localhost:8000` by default. Override it with `VITE_API_BASE_URL`.
 
+## Docker Compose
+
+Run the complete local application stack with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Exposed local ports:
+
+- Frontend UI: `http://localhost:8080`
+- Backend API: `http://localhost:18000`
+- Backend health check: `http://localhost:18000/health`
+- PostgreSQL: `localhost:5433` on the host, mapped to `5432` inside Compose
+
+The Compose stack includes:
+
+- `postgres` using the `postgres:16-alpine` image.
+- `backend` built from `backend/Dockerfile`.
+- `frontend` built from `frontend/Dockerfile` and served by nginx.
+
+PostgreSQL data is persisted in the named Docker volume `postgres_data`.
+
+The frontend container is built with `VITE_API_BASE_URL=http://localhost:18000` so browser requests use the host-exposed backend port. The backend receives its database URL from `WIMF_DATABASE_URL` in `docker-compose.yml`.
+
+Stop the stack with:
+
+```bash
+docker compose down
+```
+
+Remove persisted PostgreSQL data with:
+
+```bash
+docker compose down --volumes
+```
+
 ## Implemented foundation
 
 - Reusable foodstuff configuration with category and min/max estimated expiry days.
